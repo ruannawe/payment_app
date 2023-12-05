@@ -1,11 +1,28 @@
 {% extends 'default_template.html' %}
 
 {% block content %}
-    <h1>Payment Types</h1>
+    <h1>Tipos de Pagamentos</h1>
 
-    <ul>
-        {% for payment_type in payment_types %}
-            <li>{{ payment_type.name }}</li>
-        {% endfor %}
-    </ul>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for payment_type in payment_types %}
+                <tr>
+                    <td>{{ payment_type.id }}</td>
+                    <td>{{ payment_type.name }}</td>
+                    <td>
+                        <a href="{% url 'edit' id=payment_type.id %}">
+                            <button>Editar</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

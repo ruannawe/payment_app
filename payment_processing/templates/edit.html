@@ -1,0 +1,35 @@
+{% extends 'default_template.html' %}
+
+{% block content %}
+    <h1>Tipo de Pagamento: {{ payment_type.name }}</h1>
+
+    <div>
+        <strong>ID:</strong> {{ payment_type.id }}<br>
+        <strong>Name:</strong> {{ payment_type.name }}
+    </div>
+
+    <h2>Ações de Pagamento</h2>
+    <form method="post" action="{% url 'update' payment_type.id %}">
+        {% csrf_token %}
+        <ul>
+            {% for action in payment_actions %}
+                <li>
+                    {{ action.name }} - {{ action.description }}
+                    <button type="submit" name="remove_action" value="{{ action.id }}">Remove</button>
+                </li>
+            {% empty %}
+                <li>No associated actions.</li>
+            {% endfor %}
+        </ul>
+
+        <label for="new_action">Add New Action:</label>
+        <select id="new_action" name="new_action">
+            {% for action in all_actions %}
+                <option value="{{ action.id }}">{{ action.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" name="add_action">Add Action</button>
+    </form>
+
+    <a href="{% url 'index' %}">Back to Payment Types</a>
+{% endblock %}
