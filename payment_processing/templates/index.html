@@ -1,5 +1,11 @@
 {% extends 'default_template.html' %}
 
 {% block content %}
-    <p>This is custom content for the page.</p>
+    <h1>Payment Types</h1>
+
+    <ul>
+        {% for payment_type in payment_types %}
+            <li>{{ payment_type.name }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

@@ -2,23 +2,71 @@ class PaymentCommandFactory:
     @staticmethod
     def get_command_class(action_description):
         command_mapping = {
-            "PagamentoProdutoFisico": PagamentoProdutoFisicoCommand,
-            "PagamentoLivro": PagamentoLivroCommand,
+            "PaymentActionPackingSlipForShippingCommand": PaymentActionPackingSlipForShippingCommand,
+            "PaymentActionGenerateCommissionCommand": PaymentActionGenerateCommissionCommand,
+            "PaymentActionDuplicateShippingSlipForRoyaltiesCommand": PaymentActionDuplicateShippingSlipForRoyaltiesCommand,
+            "PaymentActionGenerateCommissionForBookCommand": PaymentActionGenerateCommissionForBookCommand,
+            "PaymentActionActivateMembershipCommand": PaymentActionActivateMembershipCommand,
+            "PaymentActionSendActivationEmailCommand": PaymentActionSendActivationEmailCommand,
+            "PaymentActionApplyUpgradeCommand": PaymentActionApplyUpgradeCommand,
+            "PaymentActionSendUpgradeEmailCommand": PaymentActionSendUpgradeEmailCommand,
+            "PaymentActionSendDuplicateUpgradeEmailCommand": PaymentActionSendDuplicateUpgradeEmailCommand,
+            "PaymentActionAddFreeVideoCommand": PaymentActionAddFreeVideoCommand,
         }
 
-        return command_mapping.get(action_description, DefaultPaymentCommand)
+        return command_mapping.get(action_description, PaymentActionCommandBase)
 
 
-class PagamentoProdutoFisicoCommand:
+class PaymentActionCommandBase:
+    def execute(self):
+        raise NotImplementedError("Subclasses must implement this method")
+
+
+class PaymentActionPackingSlipForShippingCommand(PaymentActionCommandBase):
     def execute(self):
         pass
 
 
-class PagamentoLivroCommand:
+class PaymentActionGenerateCommissionCommand(PaymentActionCommandBase):
     def execute(self):
         pass
 
 
-class DefaultPaymentCommand:
+class PaymentActionDuplicateShippingSlipForRoyaltiesCommand(PaymentActionCommandBase):
     def execute(self):
-        print("Ação padrão para pagamento.")
+        pass
+
+
+class PaymentActionGenerateCommissionForBookCommand(PaymentActionCommandBase):
+    def execute(self):
+        pass
+
+
+class PaymentActionActivateMembershipCommand(PaymentActionCommandBase):
+    def execute(self):
+        pass
+
+
+class PaymentActionSendActivationEmailCommand(PaymentActionCommandBase):
+    def execute(self):
+        pass
+
+
+class PaymentActionApplyUpgradeCommand(PaymentActionCommandBase):
+    def execute(self):
+        pass
+
+
+class PaymentActionSendUpgradeEmailCommand(PaymentActionCommandBase):
+    def execute(self):
+        pass
+
+
+class PaymentActionSendDuplicateUpgradeEmailCommand(PaymentActionCommandBase):
+    def execute(self):
+        pass
+
+
+class PaymentActionAddFreeVideoCommand(PaymentActionCommandBase):
+    def execute(self):
+        pass
