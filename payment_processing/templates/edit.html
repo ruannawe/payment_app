@@ -13,23 +13,25 @@
         {% csrf_token %}
         <ul>
             {% for action in payment_actions %}
-                <li>
-                    {{ action.name }} - {{ action.description }}
-                    <button type="submit" name="remove_action" value="{{ action.id }}">Remove</button>
+                <li class="list-item">
+                    <span>{{ action.name }} - {{ action.description }}</span>
+                    <button type="submit" name="remove_action" value="{{ action.id }}" class="custom-button-error">
+                        X
+                    </button>
                 </li>
             {% empty %}
                 <li>No associated actions.</li>
             {% endfor %}
         </ul>
 
-        <label for="new_action">Add New Action:</label>
+        <label for="new_action">Adicionar nova ação de pagamento:</label>
         <select id="new_action" name="new_action">
             {% for action in all_actions %}
                 <option value="{{ action.id }}">{{ action.name }}</option>
             {% endfor %}
         </select>
-        <button type="submit" name="add_action">Add Action</button>
+        <button type="submit" name="add_action" class="button primary">Add Action</button>
     </form>
 
-    <a href="{% url 'index' %}">Back to Payment Types</a>
+    <a href="{% url 'index' %}" class="button">Voltar para tipo de pagamento</a>
 {% endblock %}

@@ -1,0 +1,18 @@
+.custom-button-error {
+    margin-left: 1em;
+    background-color: #e53935;
+    color: white;
+    width: auto;
+    padding: 0.5em 1em;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5em;
+}
+
+.list-item span {
+    flex-grow: 1;
+}
