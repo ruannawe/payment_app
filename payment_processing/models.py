@@ -23,3 +23,6 @@ class PaymentTypeActionAssociation(models.Model):
 
     def __str__(self):
         return f"{self.payment_type} - {self.payment_action}"
+
+    class Meta:
+        unique_together = ('payment_type', 'payment_action',)
