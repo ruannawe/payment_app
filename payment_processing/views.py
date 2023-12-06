@@ -23,13 +23,14 @@ def update(request, id):
     payment_type = get_object_or_404(PaymentType, id=id)
 
     if request.method == 'POST':
-        print(request.POST)
         if 'remove_action' in request.POST:
             action_id = request.POST.get('remove_action')
-            payment_type.actions.remove(action_id)
+            action = get_object_or_404(PaymentAction, id=action_id)
+            payment_type.actions.remove(action)
         elif 'add_action' in request.POST:
             action_id = request.POST.get('new_action')
-            payment_type.actions.add(action_id)
+            action = get_object_or_404(PaymentAction, id=action_id)
+            payment_type.actions.add(action)
 
         return redirect('index')
 

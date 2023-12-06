@@ -1,6 +1,8 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.db import transaction, IntegrityError
+from django.urls import reverse
 from .models import PaymentAction, PaymentType, PaymentTypeActionAssociation
+
 
 class PaymentModelsTest(TestCase):
 
@@ -60,3 +62,49 @@ class PaymentModelsTest(TestCase):
                     payment_type=self.type1,
                     payment_action=action2
                 )
+
+
+class PaymentViewsTest(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.payment_action1 = PaymentAction.objects.create(
+            name='Action 1',
+            description='Test Description 1',
+            owner_class='TestClass1'
+        )
+        self.payment_type1 = PaymentType.objects.create(name='Type 1')
+        self.payment_type1.actions.add(self.payment_action1)
+
+    def test_index_view(self):
+        response = self.client.get(reverse('index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'index.html')
+        self.assertIn(self.payment_type1, response.context['payment_types'])
+
+    def test_edit_view(self):
+        response = self.client.get(reverse('edit', args=[self.payment_type1.id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'edit.html')
+        self.assertEqual(response.context['payment_type'], self.payment_type1)
+        self.assertIn(self.payment_action1, response.context['payment_actions'])
+
+    def test_update_view_remove_action(self):
+        response = self.client.post(reverse('update', args=[self.payment_type1.id]), {
+            'remove_action': self.payment_action1.id
+        })
+        self.assertEqual(response.status_code, 302)
+        self.payment_type1.refresh_from_db()
+        self.assertNotIn(self.payment_action1, self.payment_type1.actions.all())
+
+    def test_update_view_add_action(self):
+        payment_action2 = PaymentAction.objects.create(
+            name='Action 2',
+            description='Test Description 2',
+            owner_class='TestClass2'
+        )
+
+        self.payment_type1.actions.add(payment_action2)
+
+        self.payment_type1.refresh_from_db()
+        self.assertIn(payment_action2, self.payment_type1.actions.all())
