@@ -71,8 +71,7 @@ def create_seed_data(apps, schema_editor):
         for action_details in action_details_list:
             payment_action, action_created = PaymentAction.objects.get_or_create(
                 name=action_details['name'],
-                defaults={'description': action_details['description']}
-                # Handle 'owner_class' as needed
+                defaults={'description': action_details['description'], 'owner_class': action_details['owner_class']}
             )
 
             PaymentTypeActionAssociation.objects.create(
