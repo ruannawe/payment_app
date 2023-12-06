@@ -2,7 +2,7 @@ from django.db import models
 
 
 class PaymentAction(models.Model):
-    name = models.CharField(max_length=300, unique=True, db_index=True)
+    name = models.CharField(max_length=255, unique=True, db_index=True)
     description = models.TextField()
     owner_class = models.CharField(max_length=255, unique=True, db_index=True)
 
@@ -11,7 +11,7 @@ class PaymentAction(models.Model):
 
 
 class PaymentType(models.Model):
-    name = models.CharField(max_length=100, unique=True, db_index=True)
+    name = models.CharField(max_length=255, unique=True, db_index=True)
     actions = models.ManyToManyField('PaymentAction', through='PaymentTypeActionAssociation')
 
     def __str__(self):
