@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-rs2=7vj_jk%se8z*(&52go@(gc!2f_+tv9dkk!qu+w6vvh6-2%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['bhub-payment-app-7eda46ad1e16.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
