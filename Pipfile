@@ -15,6 +15,7 @@ sqlparse = "==0.4.4"
 tzdata = "==2023.3"
 virtualenv = "==20.25.0"
 gunicorn = "*"
+dj-database-url = "*"
 
 [dev-packages]
 
