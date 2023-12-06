@@ -16,6 +16,7 @@ tzdata = "==2023.3"
 virtualenv = "==20.25.0"
 gunicorn = "*"
 dj-database-url = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
