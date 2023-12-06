@@ -12,6 +12,8 @@ class PaymentCommandFactory:
             "PaymentActionSendUpgradeEmailCommand": PaymentActionSendUpgradeEmailCommand,
             "PaymentActionSendDuplicateUpgradeEmailCommand": PaymentActionSendDuplicateUpgradeEmailCommand,
             "PaymentActionAddFreeVideoCommand": PaymentActionAddFreeVideoCommand,
+            "PaymentActionTest1": PaymentActionTest1,
+            "PaymentActionTest2": PaymentActionTest2,
         }
 
         return command_mapping.get(action_description, PaymentActionCommandBase)
@@ -68,5 +70,15 @@ class PaymentActionSendDuplicateUpgradeEmailCommand(PaymentActionCommandBase):
 
 
 class PaymentActionAddFreeVideoCommand(PaymentActionCommandBase):
+    def execute(self):
+        pass
+
+
+class PaymentActionTest1(PaymentActionCommandBase):
+    def execute(self):
+        pass
+
+
+class PaymentActionTest2(PaymentActionCommandBase):
     def execute(self):
         pass

@@ -2,7 +2,8 @@ from django.test import TestCase, Client
 from django.db import transaction, IntegrityError
 from django.urls import reverse
 from .models import PaymentAction, PaymentType, PaymentTypeActionAssociation
-
+from unittest.mock import patch
+from .services import PaymentProcessingService
 
 class PaymentModelsTest(TestCase):
 
@@ -108,3 +109,47 @@ class PaymentViewsTest(TestCase):
 
         self.payment_type1.refresh_from_db()
         self.assertIn(payment_action2, self.payment_type1.actions.all())
+
+from django.test import TestCase
+from unittest.mock import patch
+from .models import PaymentType, PaymentAction, PaymentTypeActionAssociation
+from .services import PaymentProcessingService
+
+class PaymentProcessingServiceTest(TestCase):
+
+    def setUp(self):
+        self.payment_type = PaymentType.objects.create(name='Test Payment Type')
+        self.payment_action1 = PaymentAction.objects.create(
+            name='Test Payment Action 1',
+            description='Test Description 1',
+            owner_class='PaymentActionTest1'  # Unique owner_class
+        )
+        self.payment_action2 = PaymentAction.objects.create(
+            name='Test Payment Action 2',
+            description='Test Description 2',
+            owner_class='PaymentActionTest2'  # Unique owner_class
+        )
+        PaymentTypeActionAssociation.objects.create(
+            payment_type=self.payment_type,
+            payment_action=self.payment_action1
+        )
+        self.service = PaymentProcessingService()
+
+    def test_process_payment_success(self):
+        with patch('payment_processing.services.PaymentProcessingService.execute_payment_action') as mock_execute:
+            response = self.service.process_payment(self.payment_type.name)
+            self.assertEqual(response, "Payment processed with success.")
+            mock_execute.assert_called_once_with(self.payment_action1)
+
+    def test_payment_type_not_found(self):
+        response = self.service.process_payment('Nonexistent Payment Type')
+        self.assertEqual(response, "Payment type 'Nonexistent Payment Type' not found.")
+
+    def test_execute_payment_action(self):
+        with patch('payment_processing.commands.PaymentActionTest1.execute') as mock_command:
+            self.service.execute_payment_action(self.payment_action1)
+            mock_command.assert_called_once()
+
+        with patch('payment_processing.commands.PaymentActionTest2.execute') as mock_command:
+            self.service.execute_payment_action(self.payment_action2)
+            mock_command.assert_called_once()
