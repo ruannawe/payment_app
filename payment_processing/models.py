@@ -4,7 +4,7 @@ from django.db import models
 class PaymentAction(models.Model):
     name = models.CharField(max_length=300, unique=True, db_index=True)
     description = models.TextField()
-    owner_class = models.CharField(max_length=200, unique=True, db_index=True)
+    owner_class = models.CharField(max_length=255, unique=True, db_index=True)
 
     def __str__(self):
         return self.name
