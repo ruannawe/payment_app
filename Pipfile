@@ -17,6 +17,8 @@ virtualenv = "==20.25.0"
 gunicorn = "*"
 dj-database-url = "*"
 psycopg2-binary = "*"
+install = "*"
+whitenoise = "*"
 
 [dev-packages]
 
