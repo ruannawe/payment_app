@@ -40,4 +40,5 @@ Esta aplicação baseada em Django foi projetada para dominar as regras de negó
 ## Abordagem de Resolução de Problemas
 - A aplicação foi projetada para enfrentar os desafios de gerenciar um conjunto complexo e em constante mudança de regras de negócios no processamento de pedidos.
 - Ao permitir que os usuários definam e gerenciem tipos de pagamento e ações associadas, a aplicação traz clareza e ordem ao que era anteriormente caótico.
-- Ela é projetada para ser tanto flexível quanto robusta, acomodando novas regras e mudanças sem a necessidade de um extenso redesenvolvimento.
+- Foi usado o pattern conhecido como `command` para facilitar a alterações na regra de negócio. Para cada nova regra é apenas necessário criar uma nova classe command que implmenta o método `execute` no arquivo `/payment_processing/commands.py` e adicionar ela ao método `get_command_class` na classe `PaymentCommandFactory`. Caso queira remover a regra é apenas realizar o caminho inverso.
+- Ela é projetada para ser tanto flexível quanto robusta, acomodando novas regras e mudanças sem a necessidade de um extenso redesenvolvimento, dando uma interface simples de customização para o usuário, e removendo toda a complexidade extra que poderia ser adicionada com com features mais complexas de customização.
